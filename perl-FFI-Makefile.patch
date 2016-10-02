@@ -1,0 +1,21 @@
+diff -ruN FFI-1.09.orig/Makefile.PL FFI-1.09/Makefile.PL
+--- FFI-1.09.orig/Makefile.PL	2015-08-01 19:58:23.000000000 +0200
++++ FFI-1.09/Makefile.PL	2016-10-02 20:06:58.398109893 +0200
+@@ -7,7 +7,6 @@
+ 
+ use 5.008001;
+ use ExtUtils::MakeMaker;
+-use Alien::FFCall;
+ 
+ WriteMakefile(
+   'NAME'               => 'FFI',
+@@ -17,8 +16,7 @@
+   'LICENSE'            => 'gpl_2',
+   'DEFINE'             => ($^O eq "MSWin32" ? '-DWIN32' : ''),
+   'MIN_PERL_VERSION'   => '5.008001',
+-  'CCFLAGS'            => Alien::FFCall->cflags,
+-  'LIBS'               => Alien::FFCall->libs,
++  'LIBS'               => '-lcallback -lavcall',
+   'CONFIGURE_REQUIRES' => {
+     'Alien::FFCall'       => 0.02,
+     'ExtUtils::MakeMaker' => '6.52',
