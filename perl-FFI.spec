@@ -51,9 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc Changes README TODO
-%dir %{perl_vendorarch}/FFI
 %{perl_vendorarch}/FFI.pm
 %{perl_vendorarch}/FFI/Library.pm
-%dir %{perl_vendorarch}/auto/FFI/
 %attr(755,root,root) %{perl_vendorarch}/auto/FFI/*.so
 %{_mandir}/man3/*.3pm*
