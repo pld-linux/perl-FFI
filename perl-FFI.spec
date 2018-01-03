@@ -6,13 +6,14 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	FFI - Perl Foreign Function Interface based on GNU ffcall
 Name:		perl-FFI
-Version:	1.09
+Version:	1.10
 Release:	1
 License:	GPL v1+ or Artistic
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{version}.tar.gz
-# Source0-md5:	0c0e575e6440ea8fa39e132eada55ce4
+# Source0-md5:	2ec37468af2b5b820ec716ab557ddf58
 Patch0:		%{name}-Makefile.patch
+Patch1:		%{name}-xs.patch
 URL:		http://search.cpan.org/dist/FFI/
 BuildRequires:	ffcall-devel
 BuildRequires:	perl-devel >= 1:5.8.0
@@ -29,6 +30,7 @@ addresses can be passed to C code.
 %prep
 %setup -q -n %{pdir}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__perl} Makefile.PL \
@@ -50,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc Changes README TODO
+%doc Changes README.md TODO
 %{perl_vendorarch}/FFI.pm
 %{perl_vendorarch}/FFI/Library.pm
 %attr(755,root,root) %{perl_vendorarch}/auto/FFI/*.so

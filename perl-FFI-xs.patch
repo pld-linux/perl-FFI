@@ -1,0 +1,60 @@
+--- FFI-1.10.orig/FFI.xs	2015-08-01 19:56:20.000000000 +0200
++++ FFI-1.10/FFI.xs	2018-01-03 15:34:24.274284289 +0100
+@@ -26,7 +26,7 @@
+     SV *code;
+     char sig[1];
+ }
+-callback_data;
++callback_data_priv;
+ 
+ static void callback_fn (void *data, va_alist av)
+ {
+@@ -35,7 +35,7 @@
+     general arg;
+     int i = 0;
+     int flags = G_SCALAR;
+-    callback_data *cb = data;
++    callback_data_priv *cb = data;
+ 
+     switch (cb->sig[1])
+     {
+@@ -195,11 +195,6 @@
+     case 'p': av_start_ptr(av, addr, char*, &rv.p); break;
+     }
+ 
+-    #ifdef WIN32 /* Set via Makefile.PL */
+-    if (sig[0] == 's')
+-        av.flags |= __AV_STDCALL_CLEANUP;
+-    #endif
+-
+     for (i = 2; i < items; ++i)
+     {
+         STRLEN l;
+@@ -251,12 +246,12 @@
+     SV *fn;
+     PREINIT:
+     int cb;
+-    callback_data *data;
++    callback_data_priv *data;
+     SV *ret;
+     HV *stash;
+     PPCODE:
+     validate_signature(sig);
+-    Newc(0, data, sizeof(callback_data) + strlen(sig), char, callback_data);
++    Newc(0, data, sizeof(callback_data_priv) + strlen(sig), char, callback_data_priv);
+     data->code = newSVsv(fn);
+     strcpy(data->sig, sig); 
+     cb = (int)alloc_callback(callback_fn, data);
+@@ -278,10 +273,10 @@
+     SV *self;
+ PREINIT:
+     IV cb;
+-    callback_data *data;
++    callback_data_priv *data;
+ PPCODE:
+     cb = SvIV(SvRV(self));
+-    data = (callback_data*)callback_data((void*)cb);
++    data = (callback_data_priv*)callback_data((void*)cb);
+     SvREFCNT_dec(data->code);
+     Safefree(data);
+     free_callback((void*)cb);
