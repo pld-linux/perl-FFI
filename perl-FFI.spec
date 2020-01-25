@@ -3,7 +3,6 @@
 %bcond_with	tests		# do perform "make test"
 
 %define		pdir	FFI
-%include	/usr/lib/rpm/macros.perl
 Summary:	FFI - Perl Foreign Function Interface based on GNU ffcall
 Name:		perl-FFI
 Version:	1.10
